@@ -1,0 +1,46 @@
+---
+title: "Shopify"
+author: "Rashad Dixon"
+date: "5/10/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+My initial thought is there are significant outliers in order value, potentially commercial buyers that are reselling sneakers at a markup. There are two approaches that I am considerign for a more valid metric. First is just take the median order value to reduce the impact of these outliers. Additionally, we can partition the data into two categories. One is orders of less than 10 items, the other 10 or more. This is an arbitrary cut off, and I think the median is more relevant. Finally, we can take the mean removing orders that are statistical outliers based on number of items. I will plot the number of orders, and analyze the histogram of orders. There seems to be a clear set of outliers at 2000 units. 
+```{r,  message=FALSE}
+df <- read.csv(here('Data','data.csv'))
+ggplot(df, aes(x = total_items)) +
+  geom_histogram(binwidth = 50)
+```
+Lets filter the data such that orders >= 2000 are removed. The corresponding histogram seems to be a more accurate representation of consumer purchasing for the stores. I will compare the mean of the filtered AOV with the Mean Order Value of the unfiltered data.The average order value of the filtered data is $754.09. The median order value of the full data is $284. This is due to a few highly priced purchases skewing the results (as shown by the second histogram). I think combination of outliers in per item value as well as overall number of items makes the median a more reasonable metric. With internal data on purchaser ID, and patterns of consumption it would be possible to make estimations on who is making consumption purchases and who seems to be a commercial buyer. This would allow us better predict purchase patterns from the stores. If shopify is to provide insights to the vendors, we need to be able to predict all purchase insights so vendors can optimize inventory and pricing. I will conduct store based analysis in the next section to see if there are structural differences in the types of purchases coming from each vendor
+```{r, message=FALSE, warning=FALSE}
+filtered_df <- df %>%
+  filter(total_items < 2000)
+
+ggplot(filtered_df, aes(x = total_items)) +
+  geom_histogram()
+
+aov <- mean(filtered_df$order_amount)
+mov <- median(df$order_amount)
+aov
+mov
+
+ggplot(filtered_df, aes(order_amount)) +
+  geom_histogram()
+
+```
+Based on an overview of the vendor level statistics, it seems as though shop 42 and shop 78 have purchasing patterns that are significantly different than the other vendors. 42 has an ati of 667, which is 300x that of the next highest ati. This shop seems to be the only one that has these large item orders. Similarly, shop 78 has a median order value of 51450. Given that it has low mti and ati, this shop must sell high value, exclusive sneakers. I would consider categorizing these two stores as outliers that don't represent the current business model as the other 98 shops, and removing them for the calculation of AOV. This new AOV is $300.16. I think this new metric is likely the most representative. If an incoming sneaker shop doesn't self select into the exclusing or wholesale model, $300 would be the expected order value. If a firm wants elects to participate in the exclusive or wholesale model we can calculate an AOV based on their specified market.
+```{r,  message=FALSE, warning=FALSE}
+grouped_df <- df %>%
+  group_by(shop_id)%>%
+  summarise(aov = mean(order_amount),mov = median(order_amount),ati = mean(total_items),mti = median(total_items))
+grouped_df
+
+shop_df <- df%>%
+  filter(shop_id != 42 & shop_id != 78)
+shop_aov <- mean(shop_df$order_amount)
+shop_aov
+```

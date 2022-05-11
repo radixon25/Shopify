@@ -1,9 +1,9 @@
 {
     "id": "CC542CF0",
-    "path": null,
-    "project_path": null,
+    "path": "~/Shopify/Question 1/Code/Analysis.rmd",
+    "project_path": "Question 1/Code/Analysis.rmd",
     "type": "r_markdown",
-    "hash": "0",
+    "hash": "715309190",
     "contents": "",
     "dirty": false,
     "created": 1652225965355.0,
@@ -18,11 +18,11 @@
         "last_setup_crc32": "B56BE3CBbb338d19"
     },
     "folds": "",
-    "lastKnownWriteTime": 4189033089137716590,
-    "encoding": "",
+    "lastKnownWriteTime": 1652234015,
+    "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1652229665097,
+    "last_content_update": 1652234015145,
     "read_only": false,
     "read_only_alternatives": []
 }
