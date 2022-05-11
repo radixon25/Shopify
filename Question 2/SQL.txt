@@ -1,0 +1,36 @@
+--PART 1
+--Simple Solution where Order ID is known: The answer is 54
+SELECT count(OrderID) 
+FROM Orders
+WHERE ShipperID == 1;
+
+--More complex solution where ShipperID is Unknown
+SELECT count(OrderID)
+From(
+SELECT O.OrderID, O.ShipperID, S.ShipperName
+From Orders as O
+INNER JOIN Shippers as S ON O.ShipperID = S.ShipperID)
+WHERE ShipperName == 'Speedy Express';
+
+--PART2 Employee Peacock ordered 40 total orders which is the max
+SELECT LastName, Max(total_orders)
+FROM(
+SELECT E.LastName,count(O.OrderID) as total_orders
+    FROM Orders as O
+    INNER JOIN Employees as E ON O.EmployeeID = E.EmployeeID
+    GROUP BY E.EmployeeID
+	);
+
+
+--PART3 ProductID 40 has a total of 160 units purchased by customers in Germany
+SELECT ProductID, Max(total_quantity)
+From(
+SELECT O.CustomerID, O.OrderID, D.ProductID,sum(D.Quantity) as total_quantity, C.Country
+FROM Orders as O
+INNER JOIN Customers as C ON C.CustomerID = O.CustomerID
+INNER JOIN OrderDetails as D ON D.OrderID = O.OrderID
+WHERE C.Country = 'Germany'
+GROUP BY D.ProductID
+	);
+
+

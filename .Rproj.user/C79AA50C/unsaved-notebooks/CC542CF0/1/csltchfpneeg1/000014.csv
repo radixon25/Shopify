@@ -1,0 +1,4 @@
+"0","grouped_df <- df %>%"
+"0","  group_by(shop_id)%>%"
+"0","  summarise(aov = mean(order_amount),mov = median(order_amount),ati = mean(total_items),mti = median(total_items))"
+"0","grouped_df"

@@ -1,0 +1,7 @@
+"0","filtered_df <- df %>%"
+"0","  filter(total_items < 2000)"
+"0",""
+"0","ggplot(filtered_df, aes(x = total_items)) +"
+"0","  geom_histogram()"
+"2","`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+"
