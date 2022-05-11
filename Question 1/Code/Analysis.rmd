@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-My initial thought is there are significant outliers in order value, potentially commercial buyers that are reselling sneakers at a markup. There are two approaches that I am considerign for a more valid metric. First is just take the median order value to reduce the impact of these outliers. Additionally, we can partition the data into two categories. One is orders of less than 10 items, the other 10 or more. This is an arbitrary cut off, and I think the median is more relevant. Finally, we can take the mean removing orders that are statistical outliers based on number of items. I will plot the number of orders, and analyze the histogram of orders. There seems to be a clear set of outliers at 2000 units. 
+My initial thought is there are significant outliers in order value, potentially commercial buyers that are reselling sneakers at a markup. There are two approaches that I am considering for a more valid metric. First is just take the median order value to reduce the impact of these outliers. Additionally, we can partition the data into two categories. One is orders of less than 10 items, the other 10 or more. This is an arbitrary cut off, and I think the median is more relevant. Finally, we can take the mean removing orders that are statistical outliers based on number of items. I will plot the number of orders, and analyze the histogram of orders. There seems to be a clear set of outliers at 2000 units. 
 ```{r,  message=FALSE}
 df <- read.csv(here('Data','data.csv'))
 ggplot(df, aes(x = total_items)) +
